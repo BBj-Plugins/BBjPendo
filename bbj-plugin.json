@@ -2,9 +2,9 @@
     "name": "BBjPendo",
     "description": "Plugin to use Pendo for the DWC",
     "version": "0.1",
-    "author": "BASIS Europe",
+    "author": "BASIS Europe Distribution GmbH",
     "licence": "MIT",
-    "bbj_dependency": "21.10",
+    "bbj_dependency": "21.14",
     "screenshots": [],
     "plugin_dependencies": [
       {
