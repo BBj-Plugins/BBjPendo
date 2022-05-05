@@ -1,0 +1,36 @@
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+
+class public Pendo
+
+    method public Pendo()
+    methodend
+
+    method private void init(BBjString apiKey!)
+        pendo! = #readFile("pendoScript.js")
+        pendo! = pendo! + "('"+ apiKey! +"');"
+        pendo! = pendo! + #readFile("pendoInit.js")
+        ClientUtil.executeJavascript(pendo!)
+    methodend
+
+    method public void setApiKey(BBjString apiKey!)
+        if apiKey! = null() or apiKey! = "" then throw "Key can't be null or empty",785
+
+        #init(apiKey!)
+    methodend
+
+    rem /**
+    rem  * Read the content of the given file as a String.
+    rem  *
+    rem  * @param file! The file's path
+    rem  *
+    rem  * @return The file's content
+    rem  */
+    method protected BBjString readFile(BBjString file$)
+        content$ = ""
+        ch=unt
+        open (ch)file$
+        read record (ch,siz=5512000)content$
+        close (ch)
+        methodret content$
+    methodend
+classend

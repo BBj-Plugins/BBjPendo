@@ -1,0 +1,16 @@
+{
+    "name": "BBjPendo",
+    "description": "Plugin to use Pendo for the DWC",
+    "version": "0.1",
+    "author": "BASIS Europe",
+    "licence": "MIT",
+    "bbj_dependency": "21.10",
+    "screenshots": [],
+    "plugin_dependencies": [
+      {
+        "plugin_name": "WebKit",
+        "plugin_version": "0.90.0",
+        "project_url": "https://github.com/BBj-Plugins/WebKit"
+      }
+    ]
+  }
