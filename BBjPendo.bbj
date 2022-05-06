@@ -1,0 +1,80 @@
+use ::WebKit/util/ClientUtil.bbj::ClientUtil
+
+use java.util.HashMap
+
+use com.google.gson.Gson
+
+class public BBjPendo
+
+    field private HashMap userInfo! = new HashMap()
+
+    field private HashMap accountInfo! = new HashMap()
+
+    method public BBjPendo()
+    methodend
+
+    method public void setApiKey(BBjString apiKey!)
+        if apiKey! = null() or apiKey! = "" then throw "Key can't be null or empty",785
+        
+        pendo! = #readFile("BBjPendo/pendoScript.js")
+        pendo! = pendo! + "('"+ apiKey! +"');"
+        ClientUtil.executeJavascript(pendo!)
+    methodend
+
+    method private BBjString buildPendoInitScript()
+        declare BBjString script! 
+        declare Gson gson!
+
+        gson! = new Gson()
+        
+        script! = "pendo.initialize({ visitor: "
+        
+        json! = gson!.toJson(#userInfo!)
+        
+        script! = script! + json! + ","
+        
+        script! = script! + " account: "
+        
+        json! = gson!.toJson(#accountInfo!)
+        
+        script! = script! + json! + "});"
+        
+        methodret script!
+    methodend
+    
+    method public void initPendo()
+        ClientUtil.executeJavascript(#buildPendoInitScript())
+    methodend
+    
+    method public void setUserInformation(BBjString userID!)
+        #userInfo!.put("id",userID!)    
+    methodend
+
+    method public void setAccountInformation(BBjString accountID!)
+        #accountInfo!.put("id",accountID!)
+    methodend
+
+    method public void setCustomAccountInfo(BBjString key!, Object value!)
+        #accountInfo!.put(key!,value!)  
+    methodend
+
+    method public void setCustomUserInfo(BBjString key!, Object value!)
+        #userInfo!.put(key!,value!) 
+    methodend
+
+    rem /**
+    rem  * Read the content of the given file as a String.
+    rem  *
+    rem  * @param file! The file's path
+    rem  *
+    rem  * @return The file's content
+    rem  */
+    method protected BBjString readFile(BBjString file$)
+        content$ = ""
+        ch=unt
+        open (ch)file$
+        read record (ch,siz=5512000)content$
+        close (ch)
+        methodret content$
+    methodend
+classend
