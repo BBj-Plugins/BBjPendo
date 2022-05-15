@@ -46,12 +46,12 @@ class public BBjPendo
         ClientUtil.executeJavascript(#buildPendoInitScript())
     methodend
     
-    method public void setUserInformation(BBjString userID!)
-        #userInfo!.put("id",userID!)    
+    method public void setUserInformation(BBjString visitorId$)
+        #userInfo!.put("id",visitorId$)    
     methodend
 
-    method public void setAccountInformation(BBjString accountID!)
-        #accountInfo!.put("id",accountID!)
+    method public void setAccountInformation(BBjString accountId$)
+        #accountInfo!.put("id", accountId$)
     methodend
 
     method public void setCustomAccountInfo(BBjString key!, Object value!)

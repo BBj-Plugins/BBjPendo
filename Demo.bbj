@@ -1,4 +1,4 @@
-use ::BBjPendo.bbj::BBjPendo
+use ::PendoAuthProvider.bbj::PendoAuthProvider
 
 use ::WebKit/framework/LoginDialog/LoginDialog.bbj::LoginDialog
 use ::WebKit/framework/PortalFrame/PortalFrame.bbj::PortalFrame
@@ -6,8 +6,6 @@ use ::WebKit/util/ClientUtil.bbj::ClientUtil
 use ::WebKit/model/Menu.bbj::Menu
 use ::WebKit/model/Menu.bbj::MenuItem
 use ::WebKit/demo/Showcase/components/ShowCaseFrame.bbj::ShowCaseFrame
-use ::WebKit/framework/LoginDialog/SampleAuthProvider.bbj::SampleAuthProvider
-use ::WebKit/framework/Favorites/SampleFavoritesProvider.bbj::SampleFavoritesProvider
 
 if INFO(3,6)<>"6" then call "WebKit/util/deploy.bbj",pgm(-1)
 
@@ -22,20 +20,12 @@ bbjutils! = new ::BBUtils.bbj::BBUtils()
 
 iconPool$ = STBL("icon-pool", "tabler")
 
-authProvider! = new SampleAuthProvider()
+authProvider! = new PendoAuthProvider()
 login! = new LoginDialog("Showcase", authProvider!)
 login!.setLogo("WebKit/demo/assets/basislogo.png")
 login!.setAllowRemember(Boolean.TRUE)
 
-declare BBjPendo p!
 
-p! = new BBjPendo()
-p!.setApiKey(stbl("PENDOAPIKEY",err=*next))
-p!.setUserInformation("046")
-p!.setCustomUserInfo("GB","11.11.1111")
-p!.setCustomAccountInfo("ACC_CREATION","12.12.1212")
-p!.setAccountInformation("046")
-p!.initPendo()
 
 if !login!.doModal() then
     a=msgbox("ERROR",0,"Error while logging in")
@@ -46,6 +36,54 @@ declare Menu menu!
 declare MenuItem menuItem!
 
 menu! = new Menu()
+
+rem Toast
+menuItem! = menu!.addMenuItem(menu!.getRoot(),101,"Toast","Toast Demo","bulb")
+menuItem!.setProgram("::WebKit/demo/Showcase/ShowcasePanels/ToastShowcase.bbj::ToastShowcase")
+menuItem!.setStartType(0)
+
+
+declare PortalFrame portal!
+
+showCase! = menu!.addMenuItem(menu!.getRoot(),104,"Sales - Options","Sales - Options","list")
+showCase!.setStartType(2)
+
+showCaseItem! = menu!.addMenuItem(showCase!,212,"Sales Statistics","Sales Statistics","table")
+showCaseItem!.setStartType(2)
+
+showCaseItem! = menu!.addMenuItem(showCase!,211,"Diagrams","Diagrams","table")
+showCaseItem!.setStartType(2)
+
+showCaseItem! = menu!.addMenuItem(showCase!,201,"Direct - Sales - Options","Direct - Sales - Options","table")
+showCaseItem!.setStartType(2)
+
+showCaseSubItem! = menu!.addMenuItem(showCaseItem!,202,"Personal - Sale","Personal - Sale","table")
+showCaseSubItem!.setStartType(2)
+
+showCaseSubItem! = menu!.addMenuItem(showCaseItem!,203,"Electronic - Sale","Electronic - Sale","table")
+showCaseSubItem!.setStartType(2)
+
+showCaseItem! = menu!.addMenuItem(showCase!,204,"Reseller Options","Reseller Options","table")
+showCaseItem!.setStartType(2)
+
+showCaseSubItem! = menu!.addMenuItem(showCaseItem!,205,"Fast Reseller","Fast Reseller","")
+showCaseSubItem!.setStartType(2)
+
+showCaseSubItem! = menu!.addMenuItem(showCaseItem!,206,"Reliable Reseller","Reliable Reseller","")
+showCaseSubItem!.setStartType(2)
+
+showCaseSubItem! = menu!.addMenuItem(showCaseItem!,207,"Reseller in Europe","Reseller in Europe","")
+showCaseSubItem!.setStartType(2)
+
+showCaseSubItem! = menu!.addMenuItem(showCaseItem!,208,"Reseller in America","Reseller in America","")
+showCaseSubItem!.setStartType(2)
+
+showCaseSSubItem! = menu!.addMenuItem(showCaseSubItem!,209,"Reseller in North America","Reseller in North America","")
+showCaseSSubItem!.setStartType(2)
+
+showCaseSSubItem! = menu!.addMenuItem(showCaseSubItem!,210,"Reseller in South America","Reseller in South America","")
+showCaseSSubItem!.setStartType(2)
+
 
 declare PortalFrame portal!
 

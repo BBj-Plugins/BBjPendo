@@ -1,0 +1,68 @@
+REM /**
+REM  * PendoAuthProvider.bbj
+REM  * @author melihsunal
+REM  *
+REM  */
+
+use ::BBjPendo.bbj::BBjPendo
+use ::AuthKit/profile/AccountProfile.bbj::AccountProfile
+use ::WebKit/framework/LoginDialog/BBjUser.bbj::BBjUser
+use ::WebKit/framework/LoginDialog/IAuthProvider.bbj::IAuthProvider
+
+
+class public PendoAuthProvider implements IAuthProvider 
+
+    field private BBjString token!
+    field private AccountProfile profile!
+
+    method public Boolean checkLogin(BBjString username!, BBjString password!)
+           #token! = com.basis.api.admin.BBjAdminFactory.getAuthToken(username!, password!, err=invalid)
+           #profile!= new BBjUser(username!)
+           declare BBjPendo p!
+
+           p! = new BBjPendo()
+           p!.setApiKey(stbl("PENDOAPIKEY",err=*next))
+           p!.setUserInformation("0913")
+           p!.setCustomUserInfo("GB","11.11.1111")
+           p!.setCustomAccountInfo("ACC_CREATION","12.12.1212")
+           p!.setCustomAccountInfo("email","melih.sunal")
+           p!.setAccountInformation("103")
+           p!.initPendo()
+           
+           methodret Boolean.TRUE
+           
+           invalid:
+                methodret Boolean.FALSE
+    methodend
+
+    method public Boolean checkLoginWithAccountProfile(AccountProfile profile!)
+           rem for this sample accept all external profiles
+           #profile!= profile!
+           methodret Boolean.TRUE
+    methodend
+    
+    method public Boolean checkToken(BBjString token!)
+           token$ = com.basis.api.admin.BBjAdminFactory.renewAuthToken(token!,err=invalid)
+           #token! = token$
+           adm! = com.basis.api.admin.BBjAdminFactory.getBBjAdmin(token!,err=invalid)
+           X$=adm!.getUser()
+           #profile!= new BBjUser(x$)
+           methodret Boolean.TRUE
+           
+           invalid:
+                methodret Boolean.FALSE
+    methodend
+    
+    method public BBjString getToken()
+            methodret #token!
+    methodend
+    
+    method public BBjString getUser()
+            methodret #profile!.getFullName()
+    methodend
+    
+    method public AccountProfile getProfile()
+            methodret #profile!
+    methodend
+    
+classend
