@@ -22,7 +22,7 @@ class public PendoAuthProvider implements IAuthProvider
 
            p! = new BBjPendo()
            p!.setApiKey(stbl("PENDOAPIKEY",err=*next))
-           p!.setUserInformation("0913")
+           p!.setUserInformation("0915")
            p!.setCustomUserInfo("GB","11.11.1111")
            p!.setCustomAccountInfo("ACC_CREATION","12.12.1212")
            p!.setCustomAccountInfo("email","melih.sunal")
