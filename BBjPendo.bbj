@@ -15,7 +15,6 @@ class public BBjPendo
 
     method public void setApiKey(BBjString apiKey!)
         if apiKey! = null() or apiKey! = "" then throw "Key can't be null or empty",785
-        
         pendo! = #readFile("BBjPendo/pendoScript.js")
         pendo! = pendo! + "('"+ apiKey! +"');"
         ClientUtil.executeJavascript(pendo!)
