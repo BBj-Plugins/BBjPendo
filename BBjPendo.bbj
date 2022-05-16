@@ -10,14 +10,14 @@ class public BBjPendo
 
     field private HashMap accountInfo! = new HashMap()
 
+    field private BBjString apiKey!
+
     method public BBjPendo()
     methodend
 
     method public void setApiKey(BBjString apiKey!)
         if apiKey! = null() or apiKey! = "" then throw "Key can't be null or empty",785
-        pendo! = #readFile("BBjPendo/pendoScript.js")
-        pendo! = pendo! + "('"+ apiKey! +"');"
-        ClientUtil.executeJavascript(pendo!)
+        #apiKey! = apiKey!
     methodend
 
     method private BBjString buildPendoInitScript()
@@ -42,7 +42,17 @@ class public BBjPendo
     methodend
     
     method public void initPendo()
-        ClientUtil.executeJavascript(#buildPendoInitScript())
+        declare BBjString script!
+        declare BBjString pendo!
+
+        if #apiKey! = null() or #apiKey!.isEmpty() then throw "No ApiKey found", 404
+        
+        pendo! = #readFile("BBjPendo/pendoScript.js")
+        pendo! = pendo! + "('"+ #apiKey! +"');"
+        script! = pendo!
+        script! = script! + #buildPendoInitScript()
+
+        ClientUtil.executeJavascript(script!)
     methodend
     
     method public void setUserInformation(BBjString visitorId$)
